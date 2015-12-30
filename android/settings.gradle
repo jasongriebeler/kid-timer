@@ -1,0 +1,3 @@
+rootProject.name = 'kidTimer'
+
+include ':app'
