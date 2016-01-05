@@ -2,37 +2,40 @@
 
 var React = require('react-native');
 var TimeSelection = require('./App/Components/TimeSelection');
+var Timer = require('./App/Components/Timer');
+var Orientation = require('react-native-orientation');
 
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  Navigator
+  Navigator,
+  Component
 } = React;
 
-class kidTimer extends React.Component{
+var Router = function(route, navigationOperations, onComponentRef){
+  console.log("routing to: " + route.name);
+  switch (route.name) {
+    case 'TIME_SELECTION':
+      return (
+        <TimeSelection navigator={navigationOperations} />
+      );
+    case 'TIMER':
+      return (
+        <Timer navigator={navigationOperations} timerInfo={route.timerInfo} />
+      )
+  }
+}
+
+class kidTimer extends Component{
+
   render() {
     return (
       <Navigator
-        initialRoute={{name: 'My First Scene', index: 0}}
-        renderScene={(route, navigator) =>
-        <TimeSelection
-          name={route.name}
-          onForward={() => {
-            var nextIndex = route.index + 1;
-            navigator.push({
-              name: 'TimeSelection ' + nextIndex,
-              index: nextIndex,
-            });
-          }}
-          onBack={() => {
-            if (route.index > 0) {
-              navigator.pop();
-          }
-        }}
-      />
-      }
+        initialRoute={{name:'TIME_SELECTION'}}
+        renderScene={Router}
+        styles={styles.container}
       />
     );
   }

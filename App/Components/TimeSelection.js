@@ -5,46 +5,50 @@ var {
   View,
   StyleSheet,
   TextInput,
-  TouchableHighlight
+  TouchableHighlight,
+  Component
 } = React;
 
-class TimeSelection extends React.Component {
+class TimeSelection extends Component {
 
   constructor(props){
     super(props);
+    console.log("PROPS in TimeSelection");
+    console.log(props);
+    this.render = this.render.bind(this);
     this.state = {
-      greenTime: "Green",
-      yellowTime: "Yellow",
-      redTime: "Red"
-    }
+      timerInfo:{
+        greenTime: null,
+        yellowTime: null,
+        redTime: null
+      }
+    };
   }
 
-  onButtonPress(event){
-    console.log(event);
+  sendToTimer(event){
+    console.log("button pushed");
+    console.log("state info in time selection");
+    console.log(this.state.timerInfo);
+    this.props.navigator.push({
+      name: 'TIMER',
+      timerInfo: this.state.timerInfo
+    });
   }
 
 	render(){
 		return (
 			<View style={styles.container}>
 				<Text>Time Selection</Text>
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({greenTime: text})}
-          value={this.state.greenTime}
-        />
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.yellowTime}
-        />
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.redTime}
-        />
-      <TouchableHighlight onPress={this.onButtonPress}>
-          <Text>Submit</Text>
-      </TouchableHighlight>
+          <TextInput
+            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            onChangeText={(text) => this.setState({timerInfo: {greenTime: text}})}
+            placeholder='Green Time'
+          />
+          <TouchableHighlight
+          onPress={this.sendToTimer.bind(this)}
+          underlayColor='transparent'>
+            <Text>Submit</Text>
+          </TouchableHighlight>
 			</View>
 		)
 	}
