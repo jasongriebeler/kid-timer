@@ -2,14 +2,12 @@
 
 var React = require('react-native');
 var TimeSelection = require('./App/Components/TimeSelection');
-var Timer = require('./App/Components/Timer');
+var TimerScreen = require('./App/Components/TimerScreen');
 var Orientation = require('react-native-orientation');
 
 var {
   AppRegistry,
   StyleSheet,
-  Text,
-  View,
   Navigator,
   Component
 } = React;
@@ -21,9 +19,9 @@ var Router = function(route, navigationOperations, onComponentRef){
       return (
         <TimeSelection navigator={navigationOperations} />
       );
-    case 'TIMER':
+    case 'TIMER_SCREEN':
       return (
-        <Timer navigator={navigationOperations} timerInfo={route.timerInfo} />
+        <TimerScreen navigator={navigationOperations} timerInfo={route.timerInfo} />
       )
   }
 }
