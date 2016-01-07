@@ -5,7 +5,7 @@ var {
     View,
     Component,
     StyleSheet,
-    BackAndroid
+    Image
     } = React;
 
 class TimerCompleteScreen extends Component {
@@ -13,6 +13,7 @@ class TimerCompleteScreen extends Component {
         return (
             <View>
                 <Text> DONE </Text>
+                <Image source={require('./images/chuggington.png')} />
             </View>
         );
     }

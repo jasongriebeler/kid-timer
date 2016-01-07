@@ -16,6 +16,8 @@ var {
 
 var _navigator;
 
+//Orientation.lockToLandscape();
+
 BackAndroid.addEventListener('hardwareBackPress', () => {
     if (_navigator && _navigator.getCurrentRoutes().length > 1) {
         _navigator.popToTop();
