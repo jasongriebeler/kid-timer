@@ -13,7 +13,7 @@ class TimeSelection extends Component {
 
     constructor(props){
         super(props);
-        this.render = this.render.bind(this);
+        this.render = this.render.bind(this); // needed?
         this.state = {
             timerInfo:{
                 greenTime: null,
