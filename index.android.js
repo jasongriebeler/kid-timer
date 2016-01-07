@@ -10,13 +10,23 @@ var {
     AppRegistry,
     StyleSheet,
     Navigator,
-    Component
+    Component,
+    BackAndroid
     } = React;
+
+var _navigator;
+
+BackAndroid.addEventListener('hardwareBackPress', () => {
+    if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+        _navigator.popToTop();
+        return true;
+    }
+    return false;
+});
 
 var Router = function (route, navigationOperations, onComponentRef) {
     console.log("routing to: " + route.name);
-    console.log('navigation operations');
-    console.log(navigationOperations);
+    _navigator = navigationOperations;
     switch (route.name) {
         case 'TIME_SELECTION':
             return (

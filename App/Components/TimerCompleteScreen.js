@@ -5,6 +5,7 @@ var {
     View,
     Component,
     StyleSheet,
+    BackAndroid
     } = React;
 
 class TimerCompleteScreen extends Component {
