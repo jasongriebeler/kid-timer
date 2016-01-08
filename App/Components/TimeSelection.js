@@ -16,9 +16,9 @@ class TimeSelection extends Component {
         this.render = this.render.bind(this); // needed?
         this.state = {
             timerInfo:{
-                greenTime: null,
-                yellowTime: null,
-                redTime: null
+                greenTime: 0,
+                yellowTime: 0,
+                redTime: 0
             }
         };
     }
@@ -32,15 +32,6 @@ class TimeSelection extends Component {
                 redTime: this.state.redTime
             }
         });
-    }
-
-    updateState(text, property){
-        var newState = React.addOns.update(this.state, {
-            timerInfo:{
-                property: {$set: text}
-            }
-        });
-        this.setState(newState);
     }
 
     render(){
