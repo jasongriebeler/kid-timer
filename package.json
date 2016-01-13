@@ -6,6 +6,8 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "moment": "^2.11.1",
+    "react-mixin": "^3.0.3",
     "react-native": "^0.17.0",
     "react-native-orientation": "^1.11.0",
     "react-timer-mixin": "^0.13.3"

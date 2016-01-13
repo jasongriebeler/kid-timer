@@ -12,7 +12,6 @@ class TimerCompleteScreen extends Component {
     render() {
         return (
             <View>
-                <Text> DONE </Text>
                 <Image source={require('./images/chuggington.png')} />
             </View>
         );
