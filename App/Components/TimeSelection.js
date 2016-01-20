@@ -40,16 +40,19 @@ class TimeSelection extends Component {
                 <Text>Time Selection</Text>
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                    keyboardType='numeric'
                     onChangeText={(greenTime) => this.setState({greenTime})}
                     placeholder='Green Time'
                 />
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                    keyboardType='numeric'
                     onChangeText={(yellowTime) => this.setState({yellowTime})}
                     placeholder='Yellow Time'
                 />
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                    keyboardType='numeric'
                     onChangeText={(redTime) => this.setState({redTime})}
                     placeholder='Red Time'
                 />

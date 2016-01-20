@@ -10,7 +10,12 @@ var {
     Component,
     StyleSheet,
     InteractionManager,
+    Animated,
     } = React;
+
+const RED_RGB = "244, 67, 54";
+const YELLOW_RGB = "255, 235, 59";
+const GREEN_RGB = "76, 175, 80";
 
 class TimerScreen extends Component {
 
@@ -22,6 +27,7 @@ class TimerScreen extends Component {
         this.state = {
             timerInfo: props.timerInfo
         }
+        this._animatedValue = new Animated.Value(0);
     }
 
     setTimeLeft(time){
@@ -53,6 +59,10 @@ class TimerScreen extends Component {
             })
             .delay(greenTime)
             .then ( () => {
+                Animated.timing(this._animatedValue, {
+                    toValue: 100,
+                    duration: 500,
+                }).start();
                 this.clearInterval(clockHandle);
                 console.log("green timer complete...");
                 this.setState({greenComplete: true});
@@ -62,6 +72,10 @@ class TimerScreen extends Component {
             })
             .delay(yellowTime)
             .then ( () => {
+                Animated.timing(this._animatedValue, {
+                    toValue: 200,
+                    duration: 500,
+                }).start();
                 this.clearInterval(clockHandle);
                 console.log("yellow timer complete...");
                 this.setState({yellowComplete: true});
@@ -106,19 +120,28 @@ class TimerScreen extends Component {
         if (this.state.yellowComplete)
             containerStyle = styles.timerContainerRed;
 
+        var interpolatedColorAnimation = this._animatedValue.interpolate({
+            inputRange: [0, 100, 200],
+            outputRange: ['rgba(' + GREEN_RGB + ', 1)', 'rgba(' + YELLOW_RGB + ', 1)', 'rgba(' + RED_RGB + ', 1)']
+        });
+
         return (
-            <View style={containerStyle}>
-                <Text> Green: {this.props.timerInfo.greenTime}</Text>
-                <Text> Yellow: {this.props.timerInfo.yellowTime}</Text>
-                <Text> Red: {this.props.timerInfo.redTime}</Text>
+            <Animated.View style={[containerStyle, { backgroundColor: interpolatedColorAnimation }]}>
                 <Text>{this.state.formattedTimeLeft}</Text>
-            </View>
+            </Animated.View>
         );
     }
 }
 
 var styles = StyleSheet.create({
     container: {},
+    box: {
+        position: 'absolute',
+        top: 100,
+        left: 100,
+        width: 100,
+        height: 100
+    },
     timerContainerOff: {
         backgroundColor: '#9E9E9E',
         justifyContent: 'center',
