@@ -3,6 +3,7 @@
 var React = require('react-native');
 var TimeSelection = require('./App/Components/TimeSelection');
 var TimerScreen = require('./App/Components/TimerScreen');
+var Temp = require('./App/Components/Temp');
 var TimerCompleteScreen = require('./App/Components/TimerCompleteScreen');
 var Orientation = require('react-native-orientation');
 
@@ -27,8 +28,11 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 });
 
 var Router = function (route, navigationOperations, onComponentRef) {
+
     console.log("routing to: " + route.name);
+
     _navigator = navigationOperations;
+
     switch (route.name) {
         case 'TIME_SELECTION':
             return (
@@ -41,6 +45,10 @@ var Router = function (route, navigationOperations, onComponentRef) {
         case 'TIMER_COMPLETE_SCREEN':
             return (
                 <TimerCompleteScreen navigator={navigationOperations}/>
+            );
+        case 'TEMP':
+            return(
+                <Temp navigator={navigationOperations} />
             );
     }
 }
