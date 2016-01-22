@@ -1,9 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var TimeSelection = require('./App/Components/TimeSelection');
+var TimeSelectionContainer = require('./App/Components/TimeSelectionContainer');
 var TimerScreen = require('./App/Components/TimerScreen');
-var Temp = require('./App/Components/Temp');
 var TimerCompleteScreen = require('./App/Components/TimerCompleteScreen');
 var Orientation = require('react-native-orientation');
 
@@ -34,9 +33,9 @@ var Router = function (route, navigationOperations, onComponentRef) {
     _navigator = navigationOperations;
 
     switch (route.name) {
-        case 'TIME_SELECTION':
+        case 'TIME_SELECTION_CONTAINER':
             return (
-                <TimeSelection navigator={navigationOperations}/>
+                <TimeSelectionContainer navigator={navigationOperations}/>
             );
         case 'TIMER_SCREEN':
             return (
@@ -46,10 +45,6 @@ var Router = function (route, navigationOperations, onComponentRef) {
             return (
                 <TimerCompleteScreen navigator={navigationOperations}/>
             );
-        case 'TEMP':
-            return(
-                <Temp navigator={navigationOperations} />
-            );
     }
 }
 
@@ -58,7 +53,7 @@ class kidTimer extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{name:'TIME_SELECTION'}}
+                initialRoute={{name:'TIME_SELECTION_CONTAINER'}}
                 renderScene={Router}
                 styles={styles.container}
             />
