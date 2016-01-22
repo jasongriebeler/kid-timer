@@ -42,7 +42,7 @@ class TimeSelectionContainer extends Component {
                     <Text style={styles.timeSelectionText}>Time Selection</Text>
                 </View>
                 <View style={styles.colorSelection}>
-                    <ColorTimeSelection />
+                    <ColorTimeSelection title="Green Time" />
                 </View>
                 <View style={styles.submitContainer}>
                     <TouchableHighlight
@@ -67,7 +67,6 @@ var styles = StyleSheet.create({
         borderColor: 'yellow',
     },
     timeSelection: {
-        backgroundColor: 'red',
         flex: 1,
         justifyContent: 'center',
     },
@@ -76,16 +75,15 @@ var styles = StyleSheet.create({
         fontSize: 36,
     },
     colorSelection:{
-        backgroundColor: 'blue',
         flex: 2,
     },
     submitContainer: {
         justifyContent: 'center',
         alignSelf: 'stretch',
-        flex: 1,
+        flex: 2,
     },
     submitButton: {
-        backgroundColor: 'green',
+        backgroundColor: 'black',
         justifyContent: 'center',
         padding: 20,
     },

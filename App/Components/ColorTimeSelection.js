@@ -15,15 +15,20 @@ var {
     } = Dimensions.get('window');
 
 var WheelView = require('react-native-wheel');
-var _ = require('lodash');
 
-var minutes = ['1', '2'];q
-
-var wheelData = ['one','two','three','four','five','six','seven','eight','nine','ten'];
+var minutes;
 
 var currentIndex;
 
 class ColorTimeSelection extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            title: props.title
+        }
+        minutes = this.range(1, 60);
+    }
 
     previous(){
         this.refs.wheel.previous();
@@ -41,67 +46,75 @@ class ColorTimeSelection extends Component {
         currentIndex = index;
     }
 
+    range(start, stop) {
+        var result = [];
+        for (var i = start; i < stop; i++) {
+            result.push("" + i);
+        }
+
+        return result;
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome} onPress={this.previous.bind(this)} >
-                    Previous
-                </Text>
-                <Text style={styles.instructions} onPress={this.next.bind(this)} >
-                    Next
-                </Text>
-                <Text style={styles.instructions} onPress={this.finish.bind(this)} >
-                    Finish
-                </Text>
-                <WheelView
-                    style={styles.wheelview}
-                    onItemChange={this.onItemChange}
-                    values={minutes}
-                    isLoop={false}
-                    selectedIndex={0}
-                    textSize={20}
-                    ref='numbers'
-                />
-                <WheelView
-                    style={styles.wheelview}
-                    onItemChange={this.onItemChange}
-                    values={wheelData}
-                    isLoop={false}
-                    selectedIndex={0}
-                    textSize={20}
-                    ref='units'
-                />
+                <View style={styles.textContainer}>
+                    <Text style={styles.text}>{this.state.title}</Text>
+                </View>
+                <View style={styles.wheelContainer}>
+                    <WheelView
+                        style={styles.wheelview}
+                        onItemChange={this.onItemChange}
+                        values={minutes}
+                        isLoop={true}
+                        selectedIndex={0}
+                        textSize={20}
+                        ref='numbers'
+                    />
+                </View>
             </View>
-
         );
     }
 }
 
 var styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
         backgroundColor: '#F5FCFF',
+        borderRadius: 4,
+        borderWidth: 3,
+        borderColor: 'blue',
+        flex: 1,
+        justifyContent: 'space-around',
+        flexDirection: 'column',
+    },
+    wheelContainer: {
+        borderRadius: 4,
+        borderWidth: 3,
+        borderColor: 'blue',
+    },
+    wheelview: {
+        alignSelf: 'center',
+        width: deviceWidth,
+        height: deviceHeight / 5,
+    },
+    textContainer:{
+        backgroundColor: 'green',
+        borderRadius: 4,
+        borderWidth: 3,
+        borderColor: 'blue',
+    },
+    text: {
+        fontSize: 24,
+        alignSelf: 'center',
+        color: "#FFFFFF",
     },
     previous: {
-        margin: 20,
         fontSize: 22,
         color: '#000000',
     },
     next: {
-        margin: 20,
         color: '#000000',
         fontSize: 22,
-    },
-    finish: {
-        margin: 20,
-        color: '#000000',
-        fontSize: 22,
-    },
-    wheelview: {
-        width: deviceWidth / 2,
-        height: deviceHeight/5*2,
     },
 });
 

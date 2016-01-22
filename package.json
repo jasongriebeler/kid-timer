@@ -6,11 +6,9 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "lodash": "^4.0.0",
     "moment": "^2.11.1",
-    "react-mixin": "^3.0.3",
+    "react-mixin": "^2.0.2",
     "react-native": "^0.17.0",
-    "react-native-orientation": "^1.11.0",
     "react-native-wheel": "^1.0.8",
     "react-timer-mixin": "^0.13.3"
   }

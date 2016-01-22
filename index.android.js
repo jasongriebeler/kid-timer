@@ -4,7 +4,6 @@ var React = require('react-native');
 var TimeSelectionContainer = require('./App/Components/TimeSelectionContainer');
 var TimerScreen = require('./App/Components/TimerScreen');
 var TimerCompleteScreen = require('./App/Components/TimerCompleteScreen');
-var Orientation = require('react-native-orientation');
 
 var {
     AppRegistry,
@@ -15,8 +14,6 @@ var {
     } = React;
 
 var _navigator;
-
-//Orientation.lockToLandscape();
 
 BackAndroid.addEventListener('hardwareBackPress', () => {
     if (_navigator && _navigator.getCurrentRoutes().length > 1) {
