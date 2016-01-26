@@ -1,10 +1,8 @@
 var React = require('react-native');
 
 var {
-    Text,
     View,
     StyleSheet,
-    TouchableHighlight,
     Component,
     } = React;
 
@@ -15,43 +13,64 @@ class TimeSelectionContainer extends Component {
     constructor(props){
         super(props);
         this.render = this.render.bind(this); // needed?
-        this.state = {
-            timerInfo:{
-                greenTime: 0,
-                yellowTime: 0,
-                redTime: 0
-            }
-        };
+        this.state = {}
+        if(props.colorSelection)
+            this.state.colorSelection = props.colorSelection;
+        else
+            this.state.colorSelection = 'green';
+
+        if(props.timerInfo) {
+            this.state.timerInfo = props.timerInfo
+        } else {
+            this.state.timerInfo = {
+                timerInfo:{
+                    greenTime: 0,
+                    yellowTime: 0,
+                    redTime: 0
+                }
+            };
+        }
     }
 
-    sendToTimer(){
-        this.props.navigator.push({
-            name: 'TIMER_SCREEN',
-            timerInfo: {
-                greenTime: this.state.greenTime,
-                yellowTime: this.state.yellowTime,
-                redTime: this.state.redTime
-            }
+    timeSelected(data){
+
+        console.log("selected " + data.minutes + " for " + data.colorSelection);
+
+        var timerInfo = data.timerInfo
+        var route;
+        var colorSelection;
+
+        if(data.colorSelection == 'green') {
+            timerInfo.greenTime = data.minutes;
+            route = 'TIME_SELECTION_CONTAINER';
+            colorSelection = 'yellow';
+        }
+        if(data.colorSelection == 'yellow') {
+            timerInfo.yellowTime = data.minutes;
+            route = 'TIME_SELECTION_CONTAINER';
+            colorSelection='red';
+        }
+        if(data.colorSelection == 'red') {
+            timerInfo.redTime = data.minutes
+            route = 'TIMER_SCREEN';
+        }
+
+        data.navigator.push({
+            name: route,
+            timerInfo: timerInfo,
+            colorSelection: colorSelection
         });
     }
 
     render(){
         return (
             <View style={styles.container}>
-                <View style={styles.timeSelection}>
-                    <Text style={styles.timeSelectionText}>Time Selection</Text>
-                </View>
-                <View style={styles.colorSelection}>
-                    <ColorTimeSelection title="Green Time" />
-                </View>
-                <View style={styles.submitContainer}>
-                    <TouchableHighlight
-                        style={styles.submitButton}
-                        onPress={this.sendToTimer.bind(this)}
-                        underlayColor="#E39EBF">
-                        <Text style={styles.submitButtonText}>Submit</Text>
-                    </TouchableHighlight>
-                </View>
+                <ColorTimeSelection
+                    title={this.state.colorSelection + " Time"}
+                    navigator={this.props.navigator}
+                    onSubmit={this.timeSelected}
+                    timerInfo={this.state.timerInfo}
+                    colorSelection={this.state.colorSelection} />
             </View>
         )
     }
@@ -70,27 +89,12 @@ var styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    timeSelectionText: {
-        alignSelf: 'center',
-        fontSize: 36,
-    },
     colorSelection:{
-        flex: 2,
+        flex: 4,
     },
-    submitContainer: {
-        justifyContent: 'center',
-        alignSelf: 'stretch',
-        flex: 2,
-    },
-    submitButton: {
-        backgroundColor: 'black',
-        justifyContent: 'center',
-        padding: 20,
-    },
-    submitButtonText:{
-        alignSelf: 'center',
-        fontSize: 20,
-        color: 'white',
+    backgroundImage: {
+        flex: 1,
+        alignSelf: 'flex-end',
     },
 });
 

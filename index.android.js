@@ -32,7 +32,7 @@ var Router = function (route, navigationOperations, onComponentRef) {
     switch (route.name) {
         case 'TIME_SELECTION_CONTAINER':
             return (
-                <TimeSelectionContainer navigator={navigationOperations}/>
+                <TimeSelectionContainer navigator={navigationOperations} timerInfo={ route.timerInfo } colorSelection={ route.colorSelection }/>
             );
         case 'TIMER_SCREEN':
             return (
