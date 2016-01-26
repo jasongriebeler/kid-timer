@@ -7,7 +7,6 @@ var {
     StyleSheet,
     Dimensions,
     TouchableHighlight,
-    ToastAndroid,
     } = React;
 
 var {
@@ -21,15 +20,18 @@ class ColorTimeSelection extends Component {
 
     constructor(props){
         super(props);
+
+        console.log("Color Time Selection props");
+        console.log(props);
+
         this.state = {
             title: props.title,
             onSubmit: props.onSubmit,
             minutes: this.range(1, 60),
             currentIndex: 0,
-            colorSelection: props.colorSelection
+            colorSelection: props.colorSelection,
+            hexColor: props.hexColor
         }
-        console.log("PROPS2");
-        console.log(props);
     }
 
     onItemChange(index){
@@ -51,6 +53,7 @@ class ColorTimeSelection extends Component {
             "colorSelection": this.props.colorSelection,
             "navigator": this.props.navigator,
             "timerInfo": this.props.timerInfo,
+            "hexColor": this.props.hexColor
         });
     }
 
@@ -58,8 +61,8 @@ class ColorTimeSelection extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.text}>{this.state.title} Selection</Text>
+                <View style={[styles.header, {backgroundColor: this.state.hexColor}]}>
+                    <Text style={styles.title}>{this.state.title.toUpperCase()} SELECTION</Text>
                 </View>
                 <View style={styles.wheelContainer}>
                     <WheelView
@@ -86,20 +89,14 @@ class ColorTimeSelection extends Component {
 
 var styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F5FCFF',
         flex: 1,
         justifyContent: 'space-around',
         flexDirection: 'column',
     },
     header:{
-        borderRadius: 4,
-        borderWidth: 3,
-        borderColor: 'red',
+        padding: 20,
     },
     wheelContainer: {
-        borderRadius: 4,
-        borderWidth: 3,
-        borderColor: 'blue',
     },
     wheelview: {
         alignSelf: 'center',
@@ -107,10 +104,6 @@ var styles = StyleSheet.create({
         height: deviceHeight / 5,
     },
     textContainer:{
-        backgroundColor: 'green',
-        borderRadius: 4,
-        borderWidth: 3,
-        borderColor: 'blue',
     },
     submitContainer: {
         justifyContent: 'center',
@@ -121,16 +114,13 @@ var styles = StyleSheet.create({
         backgroundColor: 'black',
         justifyContent: 'center',
         padding: 20,
-        borderRadius: 4,
-        borderWidth: 3,
-        borderColor: 'green',
     },
     submitButtonText:{
         alignSelf: 'center',
         fontSize: 20,
         color: 'white',
     },
-    text: {
+    title: {
         fontSize: 24,
         alignSelf: 'center',
     },

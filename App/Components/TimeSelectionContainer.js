@@ -13,42 +13,47 @@ class TimeSelectionContainer extends Component {
     constructor(props){
         super(props);
         this.render = this.render.bind(this); // needed?
-        this.state = {}
-        if(props.colorSelection)
-            this.state.colorSelection = props.colorSelection;
-        else
-            this.state.colorSelection = 'green';
 
         if(props.timerInfo) {
-            this.state.timerInfo = props.timerInfo
+            this.state = {
+                timerInfo: props.timerInfo,
+                hexColor: props.hexColor,
+                colorSelection: props.colorSelection
+            };
         } else {
-            this.state.timerInfo = {
+            this.state = {
                 timerInfo:{
                     greenTime: 0,
                     yellowTime: 0,
                     redTime: 0
-                }
+                },
+                hexColor: '#4CAF50',
+                colorSelection: 'green'
             };
         }
     }
 
     timeSelected(data){
 
-        console.log("selected " + data.minutes + " for " + data.colorSelection);
+        console.log("time selected data for " + data.colorSelection);
+        console.log(data);
 
         var timerInfo = data.timerInfo
         var route;
         var colorSelection;
+        var hexColor;
 
         if(data.colorSelection == 'green') {
             timerInfo.greenTime = data.minutes;
             route = 'TIME_SELECTION_CONTAINER';
             colorSelection = 'yellow';
+            hexColor = '#FFEB3B';
         }
         if(data.colorSelection == 'yellow') {
             timerInfo.yellowTime = data.minutes;
             route = 'TIME_SELECTION_CONTAINER';
             colorSelection='red';
+            hexColor = '#F44336';
         }
         if(data.colorSelection == 'red') {
             timerInfo.redTime = data.minutes
@@ -58,7 +63,8 @@ class TimeSelectionContainer extends Component {
         data.navigator.push({
             name: route,
             timerInfo: timerInfo,
-            colorSelection: colorSelection
+            colorSelection: colorSelection,
+            hexColor: hexColor
         });
     }
 
@@ -70,7 +76,9 @@ class TimeSelectionContainer extends Component {
                     navigator={this.props.navigator}
                     onSubmit={this.timeSelected}
                     timerInfo={this.state.timerInfo}
-                    colorSelection={this.state.colorSelection} />
+                    colorSelection={this.state.colorSelection}
+                    hexColor={this.state.hexColor}
+                />
             </View>
         )
     }
@@ -81,9 +89,6 @@ var styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         alignItems:'stretch',
-        borderRadius: 4,
-        borderWidth: 3,
-        borderColor: 'yellow',
     },
     timeSelection: {
         flex: 1,

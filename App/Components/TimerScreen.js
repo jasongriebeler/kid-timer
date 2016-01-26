@@ -51,13 +51,16 @@ class TimerScreen extends Component {
         var yellowTime = parseFloat(this.props.timerInfo.yellowTime) * 1000;
         var redTime = parseFloat(this.props.timerInfo.redTime) * 1000;
         var clockHandle;
+
+        var zeroDelay = 1000;
+
         Q()
             .then( () => {
                 console.log('starting green timer: ' + greenTime + "ms");
                 this.setTimeLeft(greenTime);
                 clockHandle = this.setInterval(this.countdown, 1000);
             })
-            .delay(greenTime)
+            .delay(greenTime + zeroDelay)
             .then ( () => {
                 Animated.timing(this._animatedValue, {
                     toValue: 100,
@@ -70,7 +73,7 @@ class TimerScreen extends Component {
                 this.setTimeLeft(yellowTime);
                 clockHandle = this.setInterval(this.countdown, 1000);
             })
-            .delay(yellowTime)
+            .delay(yellowTime + zeroDelay)
             .then ( () => {
                 Animated.timing(this._animatedValue, {
                     toValue: 200,
@@ -83,7 +86,7 @@ class TimerScreen extends Component {
                 this.setTimeLeft(redTime);
                 clockHandle = this.setInterval(this.countdown, 1000);
             })
-            .delay(redTime)
+            .delay(redTime + zeroDelay)
             .then( () => {
                 this.clearInterval(clockHandle);
                 console.log("red timer complete...");
@@ -113,7 +116,6 @@ class TimerScreen extends Component {
     }
 
     render() {
-
         var containerStyle = styles.timerContainerGreen;
         if (this.state.greenComplete)
             containerStyle = styles.timerContainerYellow;
@@ -127,7 +129,7 @@ class TimerScreen extends Component {
 
         return (
             <Animated.View style={[containerStyle, { backgroundColor: interpolatedColorAnimation }]}>
-                <Text>{this.state.formattedTimeLeft}</Text>
+                <Text style={styles.timeLeft}>{this.state.formattedTimeLeft}</Text>
             </Animated.View>
         );
     }
@@ -165,6 +167,9 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1
+    },
+    timeLeft: {
+        fontSize: 30
     }
 });
 
