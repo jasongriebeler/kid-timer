@@ -9,6 +9,7 @@
     "moment": "^2.11.1",
     "react-mixin": "^2.0.2",
     "react-native": "^0.17.0",
+    "react-native-radio-buttons": "^0.8.1",
     "react-native-wheel": "^1.0.8",
     "react-timer-mixin": "^0.13.3"
   }

@@ -16,6 +16,8 @@ var {
 
 var WheelView = require('react-native-wheel');
 
+import { RadioButtons, SegmentedControls } from 'react-native-radio-buttons';
+
 class ColorTimeSelection extends Component {
 
     constructor(props){
@@ -30,7 +32,9 @@ class ColorTimeSelection extends Component {
             minutes: this.range(1, 60),
             currentIndex: 0,
             colorSelection: props.colorSelection,
-            hexColor: props.hexColor
+            hexColor: props.hexColor,
+            timeUnitOptions: [ 'Seconds', 'Minutes' ],
+            timeUnit: 'Minutes'
         }
     }
 
@@ -57,6 +61,24 @@ class ColorTimeSelection extends Component {
         });
     }
 
+    selectTimeUnit(timeUnit){
+        this.setState({ timeUnit });
+    }
+
+    renderContainer(options){
+    return (
+        <View style={{
+          backgroundColor: 'white',
+          paddingLeft: 20,
+          borderTopWidth: 1,
+          borderTopColor: '#cccccc',
+          borderBottomWidth: 1,
+          borderBottomColor: '#cccccc',
+        }}>
+            {options}
+        </View>
+    );
+}
 
     render() {
         return (
@@ -74,6 +96,14 @@ class ColorTimeSelection extends Component {
                         textSize={20}
                         ref='numbers'
                     />
+                    <View style={{paddingTop: 20}} />
+                    <SegmentedControls
+                        options={ this.state.timeUnitOptions }
+                        onSelection={ this.selectTimeUnit.bind(this) }
+                        selectedOption={ this.state.timeUnit }
+                        optionStyle={styles.option}
+                    />
+                    <Text style={{marginTop: 10}}>Selected option: {this.state.timeUnit || 'none'}</Text>
                 </View>
                 <TouchableHighlight
                     style={styles.submitButton}
@@ -130,6 +160,12 @@ var styles = StyleSheet.create({
     },
     next: {
         color: '#000000',
+        fontSize: 22,
+    },
+    timeUnitContainer:{
+        paddingTop: 10
+    },
+    option: {
         fontSize: 22,
     },
 });

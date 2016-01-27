@@ -49,7 +49,7 @@ class TimerScreen extends Component {
 
         var greenTime = parseFloat(this.props.timerInfo.greenTime) * 1000;
         var yellowTime = parseFloat(this.props.timerInfo.yellowTime) * 1000;
-        var redTime = parseFloat(this.props.timerInfo.redTime) * 1000;
+        var redTime = prseFloat(this.props.timerInfo.redTime) * 1000;
         var clockHandle;
 
         var zeroDelay = 1000;
