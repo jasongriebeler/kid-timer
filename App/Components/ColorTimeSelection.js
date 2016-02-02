@@ -9,13 +9,6 @@ var {
     TouchableHighlight,
     } = React;
 
-var {
-    height: deviceHeight,
-    width: deviceWidth
-    } = Dimensions.get('window');
-
-var WheelView = require('react-native-wheel');
-
 import { RadioButtons, SegmentedControls } from 'react-native-radio-buttons';
 
 class ColorTimeSelection extends Component {
@@ -29,8 +22,6 @@ class ColorTimeSelection extends Component {
         this.state = {
             title: props.title,
             onSubmit: props.onSubmit,
-            minutes: this.range(1, 60),
-            currentIndex: 0,
             colorSelection: props.colorSelection,
             hexColor: props.hexColor,
             timeUnitOptions: [ 'Seconds', 'Minutes' ],
@@ -38,22 +29,8 @@ class ColorTimeSelection extends Component {
         }
     }
 
-    onItemChange(index){
-        this.setState({"currentIndex": index});
-    }
-
-    range(start, stop) {
-        var result = [];
-        for (var i = start; i < stop; i++) {
-            result.push("" + i);
-        }
-
-        return result;
-    }
-
     onSubmitCallback(){
         this.state.onSubmit({
-            "minutes": this.state.minutes[this.state.currentIndex],
             "colorSelection": this.props.colorSelection,
             "navigator": this.props.navigator,
             "timerInfo": this.props.timerInfo,
@@ -86,31 +63,62 @@ class ColorTimeSelection extends Component {
                 <View style={[styles.header, {backgroundColor: this.state.hexColor}]}>
                     <Text style={styles.title}>{this.state.title.toUpperCase()} SELECTION</Text>
                 </View>
-                <View style={styles.wheelContainer}>
-                    <WheelView
-                        style={styles.wheelview}
-                        onItemChange={this.onItemChange.bind(this)}
-                        values={this.state.minutes}
-                        isLoop={true}
-                        selectedIndex={0}
-                        textSize={20}
-                        ref='numbers'
-                    />
-                    <View style={{paddingTop: 20}} />
-                    <SegmentedControls
-                        options={ this.state.timeUnitOptions }
-                        onSelection={ this.selectTimeUnit.bind(this) }
-                        selectedOption={ this.state.timeUnit }
-                        optionStyle={styles.option}
-                    />
-                    <Text style={{marginTop: 10}}>Selected option: {this.state.timeUnit || 'none'}</Text>
+
+                <View style={{paddingTop: 20}} />
+                <SegmentedControls
+                    options={ this.state.timeUnitOptions }
+                    onSelection={ this.selectTimeUnit.bind(this) }
+                    selectedOption={ this.state.timeUnit }
+                    optionStyle={styles.option}
+                />
+                <View style={styles.keypad}>
+                    <View style={styles.keypadrow}>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>1</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>2</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>3</Text>
+                        </TouchableHighlight>
+                    </View>
+                    <View style={styles.keypadrow}>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>4</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>5</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>6</Text>
+                        </TouchableHighlight>
+                    </View>
+                    <View style={styles.keypadrow}>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>7</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>8</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>9</Text>
+                        </TouchableHighlight>
+                    </View>
+                    <View style={styles.keypadrow}>
+                        <TouchableHighlight style={styles.keypadbutton}>
+                            <Text style={styles.keypadtext}>0</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
-                <TouchableHighlight
-                    style={styles.submitButton}
-                    onPress={this.onSubmitCallback.bind(this)}
-                    underlayColor="#E39EBF">
-                    <Text style={styles.submitButtonText}>Submit</Text>
-                </TouchableHighlight>
+                <View style={styles.submitContainer}>
+                    <TouchableHighlight
+                        style={styles.submitButton}
+                        onPress={this.onSubmitCallback.bind(this)}
+                        underlayColor="#E39EBF">
+                        <Text style={styles.submitButtonText}>Submit</Text>
+                    </TouchableHighlight>
+                </View>
 
             </View>
         );
@@ -120,30 +128,19 @@ class ColorTimeSelection extends Component {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-around',
-        flexDirection: 'column',
     },
     header:{
         padding: 20,
     },
-    wheelContainer: {
-    },
-    wheelview: {
-        alignSelf: 'center',
-        width: deviceWidth,
-        height: deviceHeight / 5,
-    },
-    textContainer:{
-    },
     submitContainer: {
-        justifyContent: 'center',
-        alignSelf: 'stretch',
-        flex: 2,
+        flexDirection: 'row',
     },
     submitButton: {
+        flex: 1,
         backgroundColor: 'black',
         justifyContent: 'center',
         padding: 20,
+        alignSelf: 'flex-end',
     },
     submitButtonText:{
         alignSelf: 'center',
@@ -154,20 +151,30 @@ var styles = StyleSheet.create({
         fontSize: 24,
         alignSelf: 'center',
     },
-    previous: {
-        fontSize: 22,
-        color: '#000000',
-    },
-    next: {
-        color: '#000000',
-        fontSize: 22,
-    },
     timeUnitContainer:{
         paddingTop: 10
     },
     option: {
         fontSize: 22,
     },
+    keypad:{
+        flex: 1,
+    },
+    keypadrow:{
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'stretch',
+        alignSelf: 'stretch',
+    },
+    keypadbutton:{
+        flex: 1,
+        alignSelf: 'stretch',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    keypadtext: {
+        fontSize: 44,
+    }
 });
 
 module.exports = ColorTimeSelection;
