@@ -7,6 +7,7 @@ var {
     } = React;
 
 var ColorTimeSelection = require('./ColorTimeSelection');
+var Colors = require('./Colors')
 
 class TimeSelectionContainer extends Component {
 
@@ -17,7 +18,7 @@ class TimeSelectionContainer extends Component {
         if(props.timerInfo) {
             this.state = {
                 timerInfo: props.timerInfo,
-                hexColor: props.hexColor,
+                color: props.color,
                 colorSelection: props.colorSelection
             };
         } else {
@@ -27,7 +28,7 @@ class TimeSelectionContainer extends Component {
                     yellowTime: 0,
                     redTime: 0
                 },
-                hexColor: '#4CAF50',
+                color: Colors.green,
                 colorSelection: 'green'
             };
         }
@@ -41,19 +42,19 @@ class TimeSelectionContainer extends Component {
         var timerInfo = data.timerInfo
         var route;
         var colorSelection;
-        var hexColor;
+        var color;
 
         if(data.colorSelection == 'green') {
             timerInfo.greenTime = data.minutes;
             route = 'TIME_SELECTION_CONTAINER';
             colorSelection = 'yellow';
-            hexColor = '#FFEB3B';
+            color = Colors.yellow;
         }
         if(data.colorSelection == 'yellow') {
             timerInfo.yellowTime = data.minutes;
             route = 'TIME_SELECTION_CONTAINER';
             colorSelection='red';
-            hexColor = '#F44336';
+            color = Colors.red;
         }
         if(data.colorSelection == 'red') {
             timerInfo.redTime = data.minutes
@@ -64,7 +65,7 @@ class TimeSelectionContainer extends Component {
             name: route,
             timerInfo: timerInfo,
             colorSelection: colorSelection,
-            hexColor: hexColor
+            color: color
         });
     }
 
@@ -77,7 +78,7 @@ class TimeSelectionContainer extends Component {
                     onSubmit={this.timeSelected}
                     timerInfo={this.state.timerInfo}
                     colorSelection={this.state.colorSelection}
-                    hexColor={this.state.hexColor}
+                    color={this.state.color}
                 />
             </View>
         )

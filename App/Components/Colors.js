@@ -1,20 +1,52 @@
-var React = require('react-native');
-
-class Colors extends Component {
-
+class Colors {
+    constructor(colors){
+        this.primaryDark = colors.primaryDark;
+        this.primaryDefault = colors.primaryDefault;
+        this.primaryLight = colors.primaryLight;
+        this.textIcons = colors.textIcons;
+        this.accent = colors.accent;
+        this.primaryText = colors.primaryText;
+        this.secondaryText = colors.secondaryText;
+        this.divider = colors.divider;
+    }
 }
 
-module.exports = {
-    PRIMARY_DARK: '#303F9F',
-    PRIMARY: '#3F51B5',
-    LIGHT_PRIMARY: '#C5CAE9',
-    TEXT_ICONS: '#FFFFFF',
-    ACCENT: '#607D8B',
-    TEXT_PRIMARY: '#212121',
-    TEXT_SECONDARY: '#727272',
-    DIVIDER_COLOR: '#B6B6B6',
+var green = new Colors({
+    primaryDark: '#388E3C',
+    primaryDefault: '#4CAF50',
+    primaryLight: '#C8E6C9',
+    textIcons: '#FFFFFF',
+    accent: '#9E9E9E',
+    primaryText: '#212121',
+    secondaryText: '#727272',
+    divider: '#B6B6B6'
+});
 
-    RED: '#D32F2F',
-    YELLOW: '#FFEB3B',
-    GREEN: '#388E3C',
+var yellow = new Colors({
+    primaryDark: '#FBC02D',
+    primaryDefault: '#FFEB3B',
+    primaryLight: '#FFF9C4',
+    textIcons: '#212121',
+    accent: '#9E9E9E',
+    primaryText: '#212121',
+    secondaryText: '#727272',
+    divider: '#B6B6B6'
+});
+
+var red = new Colors({
+    primaryDark: '#D32F2F',
+    primaryDefault: '#F44336',
+    primaryLight: '#FFCDD2',
+    textIcons: '#FFFFFF',
+    accent: '#9E9E9E',
+    primaryText: '#212121',
+    secondaryText: '#727272',
+    divider: '#B6B6B6'
+});
+
+
+module.exports = {
+    green: green,
+    yellow: yellow,
+    red: red
 };
