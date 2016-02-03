@@ -53,10 +53,8 @@ class ColorTimeSelection extends Component {
     }
 
     onButtonPress(value){
-        console.log("updating value...");
-
-        this.state.selectedTime = this.state.selectedTime + "" + value;
-        console.log(this.state.selectedTime);
+        var selectedTime = this.state.selectedTime + "" + value;
+        this.setState({selectedTime: parseInt(selectedTime)})
     }
 
     render() {
