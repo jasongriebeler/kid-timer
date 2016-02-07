@@ -6,6 +6,7 @@ var {
     Component,
     StyleSheet,
     TouchableHighlight,
+    Image,
     } = React;
 
 import { RadioButtons, SegmentedControls } from 'react-native-radio-buttons';
@@ -14,11 +15,16 @@ var MK = require('react-native-material-kit');
 
 var {
     MKButton,
-    MKTextField,
-    MKColor,
     } = MK;
 
 var Colors = require('./Colors');
+var Divider = require('./Divider');
+
+const rows = [
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    ["0"]];
 
 class ColorTimeSelection extends Component {
 
@@ -33,9 +39,7 @@ class ColorTimeSelection extends Component {
             onSubmit: props.onSubmit,
             colorSelection: props.colorSelection,
             color: props.color,
-            timeUnitOptions: [ 'Seconds', 'Minutes' ],
-            timeUnit: 'Minutes',
-            selectedTime: '0'
+            time:['0', '0', '0', '0', '0', '0'],
         }
     }
 
@@ -44,33 +48,59 @@ class ColorTimeSelection extends Component {
             "colorSelection": this.props.colorSelection,
             "navigator": this.props.navigator,
             "timerInfo": this.props.timerInfo,
-            "color": this.props.color
+            "color": this.props.color,
+            "time": this.state.time,
         });
     }
 
-    selectTimeUnit(timeUnit){
-        this.setState({ timeUnit });
+    keypadPress(value) {
+        var time = this.state.time;
+        var significantDigits = time.filter((elem) => elem != '0').length;
+        if(significantDigits < 6){
+            time.shift();
+            time.push(value);
+        }
+        this.setState({time});
+        console.log(this.state);
     }
 
-    onButtonPress(value){
-        var selectedTime = this.state.selectedTime + "" + value;
-        this.setState({selectedTime: parseInt(selectedTime)})
+    backspace() {
+        console.log("BACKSPACE");
+        var time = this.state.time;
+        var significantDigits = time.filter((elem) => elem != '0').length;
+        console.log("Significant digits: " + significantDigits);
+        if (significantDigits > 0) {
+            time.pop();
+            time.unshift('0');
+            console.log("TIME");
+            console.log(time);
+        }
+        this.setState({time});
+        console.log(this.state);
     }
 
     render() {
-        var rows = [
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-            ["7", "8", "9"],
-            ["0"]];
+        console.log("render.");
         return (
-            <View style={[styles.container, {backgroundColor: this.state.color.primaryDefault}]}>
-                <View style={[styles.header, {backgroundColor: this.state.color.primaryDark}]}>
-                    <Text style={[styles.title, {color: this.state.color.textIcons}]}>{this.state.title.toUpperCase()} SELECTION</Text>
-                </View>
+            <View style={[styles.container, {backgroundColor: this.state.color.primaryDark}]}>
                 <View style={styles.selectionContainer}>
-                    <Text style={styles.selectionTextField}>{this.state.selectedTime} </Text>
+                    <View style={styles.selectionTextFieldContainer}>
+                        <Text style={[styles.timeText, {color: this.state.color.textIcons}]}>{this.state.time.slice(0, 2)}</Text>
+                        <Text style={[styles.timeLabel, {color: this.state.color.primaryLight}]}>h</Text>
+                    </View>
+                    <View style={styles.selectionTextFieldContainer}>
+                        <Text style={[styles.timeText, {color: this.state.color.textIcons}]}>{this.state.time.slice(2, 4)}</Text>
+                        <Text style={[styles.timeLabel, {color: this.state.color.primaryLight}]}>m</Text>
+                    </View>
+                    <View style={styles.selectionTextFieldContainer}>
+                        <Text style={[styles.timeText, {color: this.state.color.textIcons}]}>{ this.state.time.slice(4, 6)}</Text>
+                        <Text style={[styles.timeLabel, {color: this.state.color.primaryLight}]}>s</Text>
+                    </View>
+                    <MKButton style={styles.backspaceContainer} onPress={this.backspace.bind(this)}>
+                        <Image style={styles.backspaceImage} source={require('./images/backspace.png')} />
+                    </MKButton>
                 </View>
+                <Divider color={this.state.color.divider} />
                 <View style={styles.keypad}>
                     {
                         rows.map( (row) => {
@@ -79,8 +109,8 @@ class ColorTimeSelection extends Component {
                                     {
                                         row.map( (value) => {
                                             return (
-                                                <MKButton key={'button' + value} style={styles.keypadbutton} onPress={() => { this.onButtonPress(value) }}>
-                                                    <Text key={'text' + value} style={[styles.keypadtext, {color: this.state.color.primaryLight}]}>{value}</Text>
+                                                <MKButton key={'button' + value} style={styles.keypadbutton} onPress={() => { this.keypadPress(value) }}>
+                                                    <Text key={'text' + value} style={[styles.keypadtext, {color: this.state.color.textIcons}]}>{value}</Text>
                                                 </MKButton>)
                                         })
                                     }
@@ -91,9 +121,9 @@ class ColorTimeSelection extends Component {
                 </View>
                 <View style={styles.submitContainer}>
                     <TouchableHighlight
-                        style={[styles.submitButton, { backgroundColor: this.state.color.accent }]}
+                        style={[styles.submitButton, { backgroundColor: this.state.color.primaryDefault }]}
                         onPress={this.onSubmitCallback.bind(this)}
-                        underlayColor="#E39EBF">
+                        underlayColor={this.state.color.primaryLight}>
                         <Text style={[ styles.submitButtonText, { color: this.state.color.textIcons } ]}>Submit</Text>
                     </TouchableHighlight>
                 </View>
@@ -107,23 +137,39 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header:{
-        padding: 20,
-        alignItems: 'center',
-    },
     selectionContainer:{
-        borderWidth: 1,
-        borderColor: 'black'
+        flexDirection: 'row',
+        flex: 1,
+        alignSelf: 'center',
     },
-    selectionTextField:{
-        alignSelf: 'stretch',
+    selectionTextFieldContainer:{
+        alignSelf: 'flex-end',
+        flexDirection: 'row',
+        paddingLeft: 15,
+    },
+    timeText: {
+        fontSize: 50,
+        alignSelf: 'center',
+    },
+    timeLabel: {
+        fontSize: 20,
+        alignSelf: 'flex-end',
+        paddingBottom: 5,
+    },
+    backspaceContainer: {
+        paddingRight: 30,
+        paddingLeft: 10,
+        justifyContent: 'center',
+    },
+    backspaceImage: {
+        marginTop: 15,
+        alignSelf: 'center',
     },
     submitContainer: {
         flexDirection: 'row',
     },
     submitButton: {
         flex: 1,
-        backgroundColor: 'black',
         justifyContent: 'center',
         padding: 30,
         alignSelf: 'flex-end',
@@ -131,7 +177,6 @@ var styles = StyleSheet.create({
     submitButtonText:{
         alignSelf: 'center',
         fontSize: 20,
-        color: 'white',
     },
     title: {
         fontSize: 24,
@@ -145,7 +190,8 @@ var styles = StyleSheet.create({
         fontSize: 22,
     },
     keypad:{
-        flex: 1,
+        flex: 5,
+        margin: 10,
     },
     keypadrow:{
         flexDirection: 'row',
@@ -160,9 +206,8 @@ var styles = StyleSheet.create({
         alignItems: 'center',
     },
     keypadtext: {
-        fontSize: 44,
-        color: Colors.TEXT_ICONS,
-    }
+        fontSize: 40,
+    },
 });
 
 module.exports = ColorTimeSelection;

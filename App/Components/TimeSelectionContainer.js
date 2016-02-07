@@ -45,21 +45,22 @@ class TimeSelectionContainer extends Component {
         var color;
 
         if(data.colorSelection == 'green') {
-            timerInfo.greenTime = data.minutes;
+            timerInfo.greenTime = data.time;
             route = 'TIME_SELECTION_CONTAINER';
             colorSelection = 'yellow';
             color = Colors.yellow;
-        }
-        if(data.colorSelection == 'yellow') {
-            timerInfo.yellowTime = data.minutes;
+        } else if(data.colorSelection == 'yellow') {
+            timerInfo.yellowTime = data.time;
             route = 'TIME_SELECTION_CONTAINER';
             colorSelection='red';
             color = Colors.red;
-        }
-        if(data.colorSelection == 'red') {
-            timerInfo.redTime = data.minutes
+        } else if(data.colorSelection == 'red') {
+            timerInfo.redTime = data.time
             route = 'TIMER_SCREEN';
         }
+
+        console.log("COLOR");
+        console.log(color);
 
         data.navigator.push({
             name: route,
