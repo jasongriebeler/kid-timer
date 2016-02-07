@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 
 var {
@@ -6,16 +8,9 @@ var {
     Component,
     StyleSheet,
     TouchableHighlight,
+    TouchableNativeFeedback,
     Image,
     } = React;
-
-import { RadioButtons, SegmentedControls } from 'react-native-radio-buttons';
-
-var MK = require('react-native-material-kit');
-
-var {
-    MKButton,
-    } = MK;
 
 var Colors = require('./Colors');
 var Divider = require('./Divider');
@@ -30,10 +25,6 @@ class ColorTimeSelection extends Component {
 
     constructor(props){
         super(props);
-
-        console.log("Color Time Selection props");
-        console.log(props);
-
         this.state = {
             title: props.title,
             onSubmit: props.onSubmit,
@@ -49,7 +40,11 @@ class ColorTimeSelection extends Component {
             "navigator": this.props.navigator,
             "timerInfo": this.props.timerInfo,
             "color": this.props.color,
-            "time": this.state.time,
+            "time": {
+                hours: parseInt(this.state.time.slice(0, 2)),
+                minutes: parseInt(this.state.time.slice(2, 4)),
+                seconds: parseInt(this.state.time.slice(4, 6)),
+            },
         });
     }
 
@@ -61,26 +56,19 @@ class ColorTimeSelection extends Component {
             time.push(value);
         }
         this.setState({time});
-        console.log(this.state);
     }
 
     backspace() {
-        console.log("BACKSPACE");
         var time = this.state.time;
         var significantDigits = time.filter((elem) => elem != '0').length;
-        console.log("Significant digits: " + significantDigits);
         if (significantDigits > 0) {
             time.pop();
             time.unshift('0');
-            console.log("TIME");
-            console.log(time);
         }
         this.setState({time});
-        console.log(this.state);
     }
 
     render() {
-        console.log("render.");
         return (
             <View style={[styles.container, {backgroundColor: this.state.color.primaryDark}]}>
                 <View style={styles.selectionContainer}>
@@ -96,9 +84,11 @@ class ColorTimeSelection extends Component {
                         <Text style={[styles.timeText, {color: this.state.color.textIcons}]}>{ this.state.time.slice(4, 6)}</Text>
                         <Text style={[styles.timeLabel, {color: this.state.color.primaryLight}]}>s</Text>
                     </View>
-                    <MKButton style={styles.backspaceContainer} onPress={this.backspace.bind(this)}>
-                        <Image style={styles.backspaceImage} source={require('./images/backspace.png')} />
-                    </MKButton>
+                    <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackgroundBorderless()}  onPress={this.backspace.bind(this)}>
+                        <View style={styles.backspaceContainer}>
+                            <Image style={styles.backspaceImage} source={require('./images/backspace.png')} />
+                        </View>
+                    </TouchableNativeFeedback>
                 </View>
                 <Divider color={this.state.color.divider} />
                 <View style={styles.keypad}>
@@ -109,9 +99,15 @@ class ColorTimeSelection extends Component {
                                     {
                                         row.map( (value) => {
                                             return (
-                                                <MKButton key={'button' + value} style={styles.keypadbutton} onPress={() => { this.keypadPress(value) }}>
-                                                    <Text key={'text' + value} style={[styles.keypadtext, {color: this.state.color.textIcons}]}>{value}</Text>
-                                                </MKButton>)
+                                                <TouchableNativeFeedback
+                                                    key={'button' + value}
+                                                    background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
+                                                    style={styles.keypadbutton}
+                                                    onPress={() => { this.keypadPress(value) }}>
+                                                    <View style={styles.keypadTextWrapper}>
+                                                        <Text key={'text' + value} style={[styles.keypadtext, {color: this.state.color.primaryLight}]}>{value}</Text>
+                                                    </View>
+                                                </TouchableNativeFeedback>)
                                         })
                                     }
                                 </View>
@@ -120,12 +116,14 @@ class ColorTimeSelection extends Component {
                     }
                 </View>
                 <View style={styles.submitContainer}>
-                    <TouchableHighlight
-                        style={[styles.submitButton, { backgroundColor: this.state.color.primaryDefault }]}
+                    <TouchableNativeFeedback
+                        background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
                         onPress={this.onSubmitCallback.bind(this)}
                         underlayColor={this.state.color.primaryLight}>
-                        <Text style={[ styles.submitButtonText, { color: this.state.color.textIcons } ]}>Submit</Text>
-                    </TouchableHighlight>
+                        <View style={[styles.submitButtonWrapper, {backgroundColor: this.state.color.primaryDefault}]}>
+                            <Text style={[ styles.submitButtonText, { color: this.state.color.textIcons } ]}>Submit</Text>
+                        </View>
+                    </TouchableNativeFeedback>
                 </View>
 
             </View>
@@ -154,19 +152,26 @@ var styles = StyleSheet.create({
     timeLabel: {
         fontSize: 20,
         alignSelf: 'flex-end',
-        paddingBottom: 5,
+        paddingBottom: 8,
     },
     backspaceContainer: {
         paddingRight: 30,
         paddingLeft: 10,
+        alignItems: 'center',
         justifyContent: 'center',
+        flex: 1
     },
     backspaceImage: {
         marginTop: 15,
         alignSelf: 'center',
+        justifyContent: 'center',
     },
-    submitContainer: {
-        flexDirection: 'row',
+    submitButtonWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 20,
+        paddingTop: 20
     },
     submitButton: {
         flex: 1,
@@ -204,6 +209,11 @@ var styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    keypadTextWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     keypadtext: {
         fontSize: 40,

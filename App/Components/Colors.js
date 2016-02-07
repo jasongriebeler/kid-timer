@@ -1,3 +1,5 @@
+'use strict';
+
 class Colors {
     constructor(colors){
         this.primaryDark = colors.primaryDark;

@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 
 var {
@@ -24,9 +26,9 @@ class TimeSelectionContainer extends Component {
         } else {
             this.state = {
                 timerInfo:{
-                    greenTime: 0,
-                    yellowTime: 0,
-                    redTime: 0
+                    greenTime: null,
+                    yellowTime: null,
+                    redTime: null
                 },
                 color: Colors.green,
                 colorSelection: 'green'
@@ -35,10 +37,6 @@ class TimeSelectionContainer extends Component {
     }
 
     timeSelected(data){
-
-        console.log("time selected data for " + data.colorSelection);
-        console.log(data);
-
         var timerInfo = data.timerInfo
         var route;
         var colorSelection;
@@ -58,9 +56,6 @@ class TimeSelectionContainer extends Component {
             timerInfo.redTime = data.time
             route = 'TIMER_SCREEN';
         }
-
-        console.log("COLOR");
-        console.log(color);
 
         data.navigator.push({
             name: route,

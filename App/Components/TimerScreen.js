@@ -1,8 +1,11 @@
+'use strict';
+
 var React = require('react-native');
 var Q = require('q');
 var reactMixin = require('react-mixin');
 var TimerMixin = require('react-timer-mixin');
 var moment = require('moment');
+var Colors = require('./Colors');
 
 var {
     Text,
@@ -12,10 +15,6 @@ var {
     InteractionManager,
     Animated,
     } = React;
-
-const RED_RGB = "244, 67, 54";
-const YELLOW_RGB = "255, 235, 59";
-const GREEN_RGB = "76, 175, 80";
 
 class TimerScreen extends Component {
 
@@ -44,12 +43,19 @@ class TimerScreen extends Component {
         this.setTimeLeft(this.state.timeLeft - 1000);
     }
 
+    toMilliseconds(time){
+        var fromSeconds = time.seconds * 1000;
+        var fromMinutes = time.minutes * 60000;
+        var fromHours = time.hours * 3600000;
+        return fromSeconds + fromMinutes + fromHours;
+    }
+
     runTimer(){
         console.log("Starting timer process...");
 
-        var greenTime = parseFloat(this.props.timerInfo.greenTime) * 1000;
+        var greenTime = this.toMilliseconds(this.props.timerInfo.greenTime);
         var yellowTime = parseFloat(this.props.timerInfo.yellowTime) * 1000;
-        var redTime = prseFloat(this.props.timerInfo.redTime) * 1000;
+        var redTime = parseFloat(this.props.timerInfo.redTime) * 1000;
         var clockHandle;
 
         var zeroDelay = 1000;
