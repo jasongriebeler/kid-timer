@@ -28,7 +28,7 @@ var yellow = new Colors({
     primaryDark: '#FBC02D',
     primaryDefault: '#FFEB3B',
     primaryLight: '#FFF9C4',
-    textIcons: '#212121',
+    textIcons: '#FFFFFF',
     accent: '#9E9E9E',
     primaryText: '#212121',
     secondaryText: '#727272',

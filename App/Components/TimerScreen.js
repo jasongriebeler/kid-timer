@@ -20,6 +20,10 @@ class TimerScreen extends Component {
 
     constructor(props){
         super(props);
+
+        console.log("Timer props");
+        console.log(props);
+
         this.render = this.render.bind(this); // needed?
         console.log("TIMER SCREEN PROPS");
         console.log(props);
@@ -44,6 +48,9 @@ class TimerScreen extends Component {
     }
 
     toMilliseconds(time){
+        console.log("time");
+        console.log(time);
+
         var fromSeconds = time.seconds * 1000;
         var fromMinutes = time.minutes * 60000;
         var fromHours = time.hours * 3600000;
@@ -121,20 +128,20 @@ class TimerScreen extends Component {
         });
     }
 
+    hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return parseInt(result[1], 16) + "," + parseInt(result[2], 16) + "," + parseInt(result[3], 16);
+    }
+
     render() {
-        var containerStyle = styles.timerContainerGreen;
-        if (this.state.greenComplete)
-            containerStyle = styles.timerContainerYellow;
-        if (this.state.yellowComplete)
-            containerStyle = styles.timerContainerRed;
 
         var interpolatedColorAnimation = this._animatedValue.interpolate({
             inputRange: [0, 100, 200],
-            outputRange: ['rgba(' + GREEN_RGB + ', 1)', 'rgba(' + YELLOW_RGB + ', 1)', 'rgba(' + RED_RGB + ', 1)']
+            outputRange: ['rgba(' + this.hexToRgb(Colors.green.primaryDark) + ', 1)', 'rgba(' + this.hexToRgb(Colors.yellow.primaryDark) + ', 1)', 'rgba(' + this.hexToRgb(Colors.red.primaryDark) + ', 1)']
         });
 
         return (
-            <Animated.View style={[containerStyle, { backgroundColor: interpolatedColorAnimation }]}>
+            <Animated.View style={[{ backgroundColor: interpolatedColorAnimation }]}>
                 <Text style={styles.timeLeft}>{this.state.formattedTimeLeft}</Text>
             </Animated.View>
         );
@@ -150,26 +157,7 @@ var styles = StyleSheet.create({
         width: 100,
         height: 100
     },
-    timerContainerOff: {
-        backgroundColor: '#9E9E9E',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    timerContainerRed: {
-        backgroundColor: '#F44336',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    timerContainerYellow: {
-        backgroundColor: '#FFEB3B',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    timerContainerGreen: {
-        backgroundColor: '#4CAF50',
+    timerContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1

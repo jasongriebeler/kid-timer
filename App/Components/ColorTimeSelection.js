@@ -7,7 +7,6 @@ var {
     View,
     Component,
     StyleSheet,
-    TouchableHighlight,
     TouchableNativeFeedback,
     Image,
     } = React;
@@ -34,16 +33,16 @@ class ColorTimeSelection extends Component {
         }
     }
 
-    onSubmitCallback(){
+    submitColorSelection(){
         this.state.onSubmit({
             "colorSelection": this.props.colorSelection,
             "navigator": this.props.navigator,
             "timerInfo": this.props.timerInfo,
             "color": this.props.color,
             "time": {
-                hours: parseInt(this.state.time.slice(0, 2)),
-                minutes: parseInt(this.state.time.slice(2, 4)),
-                seconds: parseInt(this.state.time.slice(4, 6)),
+                hours: parseInt(this.state.time.slice(0, 2).join('')),
+                minutes: parseInt(this.state.time.slice(2, 4).join('')),
+                seconds: parseInt(this.state.time.slice(4, 6).join('')),
             },
         });
     }
@@ -115,10 +114,10 @@ class ColorTimeSelection extends Component {
                         })
                     }
                 </View>
-                <View style={styles.submitContainer}>
+                <View>
                     <TouchableNativeFeedback
                         background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
-                        onPress={this.onSubmitCallback.bind(this)}
+                        onPress={this.submitColorSelection.bind(this)}
                         underlayColor={this.state.color.primaryLight}>
                         <View style={[styles.submitButtonWrapper, {backgroundColor: this.state.color.primaryDefault}]}>
                             <Text style={[ styles.submitButtonText, { color: this.state.color.textIcons } ]}>Submit</Text>
