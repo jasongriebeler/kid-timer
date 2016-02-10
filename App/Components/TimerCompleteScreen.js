@@ -11,9 +11,10 @@ var {
     } = React;
 
 class TimerCompleteScreen extends Component {
+
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Image source={require('./images/chuggington.png')} />
             </View>
         );
@@ -21,6 +22,12 @@ class TimerCompleteScreen extends Component {
 }
 
 var styles = StyleSheet.create({
+    container:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: '#F5F5F5',
+    },
 });
 
 module.exports = TimerCompleteScreen;

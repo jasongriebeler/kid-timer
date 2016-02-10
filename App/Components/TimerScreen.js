@@ -36,7 +36,7 @@ class TimerScreen extends Component {
     setTimeLeft(time){
         console.log("time left: " + time);
         var timeLeft = parseInt(time);
-        var formattedTimeLeft = moment().minute(0).second((timeLeft / 1000)).format('mm:ss');
+        var formattedTimeLeft = moment().minute(0).hour(0).second((timeLeft / 1000)).format('hh:mm:ss');
         this.setState({
             timeLeft: timeLeft,
             formattedTimeLeft: formattedTimeLeft
@@ -61,8 +61,8 @@ class TimerScreen extends Component {
         console.log("Starting timer process...");
 
         var greenTime = this.toMilliseconds(this.props.timerInfo.greenTime);
-        var yellowTime = parseFloat(this.props.timerInfo.yellowTime) * 1000;
-        var redTime = parseFloat(this.props.timerInfo.redTime) * 1000;
+        var yellowTime = this.toMilliseconds(this.props.timerInfo.yellowTime);
+        var redTime = this.toMilliseconds(this.props.timerInfo.redTime);
         var clockHandle;
 
         var zeroDelay = 1000;
@@ -141,7 +141,7 @@ class TimerScreen extends Component {
         });
 
         return (
-            <Animated.View style={[{ backgroundColor: interpolatedColorAnimation }]}>
+            <Animated.View style={[styles.timerContainer, { backgroundColor: interpolatedColorAnimation }]}>
                 <Text style={styles.timeLeft}>{this.state.formattedTimeLeft}</Text>
             </Animated.View>
         );
@@ -149,21 +149,14 @@ class TimerScreen extends Component {
 }
 
 var styles = StyleSheet.create({
-    container: {},
-    box: {
-        position: 'absolute',
-        top: 100,
-        left: 100,
-        width: 100,
-        height: 100
-    },
     timerContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1
     },
     timeLeft: {
-        fontSize: 30
+        fontSize: 50,
+        color: '#FFFFFF',
     }
 });
 
