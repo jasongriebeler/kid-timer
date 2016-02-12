@@ -36,7 +36,7 @@ class TimerScreen extends Component {
     setTimeLeft(time){
         console.log("time left: " + time);
         var timeLeft = parseInt(time);
-        var formattedTimeLeft = moment().minute(0).hour(0).second((timeLeft / 1000)).format('hh:mm:ss');
+        var formattedTimeLeft = moment().minute(0).hour(0).second((timeLeft / 1000)).format('HH:mm:ss');
         this.setState({
             timeLeft: timeLeft,
             formattedTimeLeft: formattedTimeLeft

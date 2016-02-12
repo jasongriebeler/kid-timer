@@ -9,7 +9,6 @@
     "moment": "^2.11.1",
     "react-mixin": "^2.0.2",
     "react-native": "^0.19",
-    "react-native-sound": "^0.7.3",
     "react-timer-mixin": "^0.13.3"
   }
 }
